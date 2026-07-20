@@ -77,10 +77,126 @@ int main()
                 break;
             }
 
-            case 3:
-                printf("\nBook a Seat selected.\n");
-                break;
+        case 3:
+{
+    char customer[50];
+    int show, row, col;
+    int price = 0;
+    int ticketCount;
+    int student, senior;
+    float discount = 0;
+    float finalPrice;
 
+    printf("\n========== BOOK A SEAT ==========\n");
+
+    printf("\nAvailable Showtimes:\n");
+    for(int i = 0; i < totalShows; i++)
+    {
+        printf("%d. %s\n", i + 1, showtimes[i]);
+    }
+
+    printf("\nSelect Showtime (1-%d): ", totalShows);
+    scanf("%d", &show);
+
+    if(show < 1 || show > totalShows)
+    {
+        printf("Invalid showtime!\n");
+        break;
+    }
+
+    printf("Enter Customer Name: ");
+    scanf("%49s", customer);
+
+    printf("Enter Row (1-5): ");
+    scanf("%d", &row);
+
+    printf("Enter Seat Number (1-5): ");
+    scanf("%d", &col);
+
+    if(row < 1 || row > 5 || col < 1 || col > 5)
+    {
+        printf("Invalid seat number!\n");
+        break;
+    }
+
+    if(seats[row-1][col-1] == 'X')
+    {
+        printf("Sorry! Seat is already booked.\n");
+        break;
+    }
+
+    // Price by row
+    if(row == 1 || row == 2)
+    {
+        price = 500;
+    }
+    else if(row == 3 || row == 4)
+    {
+        price = 750;
+    }
+    else
+    {
+        price = 1000;
+    }
+
+    // Only one discount category allowed
+    do
+    {
+        printf("Student? (1=Yes, 0=No): ");
+        scanf("%d", &student);
+
+        printf("Senior Citizen? (1=Yes, 0=No): ");
+        scanf("%d", &senior);
+
+        if(student == 1 && senior == 1)
+        {
+            printf("Please select only ONE discount category.\n\n");
+        }
+
+    } while(student == 1 && senior == 1);
+
+    printf("Number of tickets: ");
+    scanf("%d", &ticketCount);
+
+    if(ticketCount <= 0)
+    {
+        printf("Invalid number of tickets!\n");
+        break;
+    }
+
+    discount = 0;
+
+    if(student == 1)
+    {
+        discount += 10;
+    }
+
+    if(senior == 1)
+    {
+        discount += 20;
+    }
+
+    if(ticketCount >= 4)
+    {
+        discount += 10;
+    }
+
+    finalPrice = (price * ticketCount) - ((price * ticketCount) * discount / 100);
+
+    // Book the selected seat
+    seats[row-1][col-1] = 'X';
+
+    printf("\n========== BOOKING SUCCESSFUL ==========\n");
+    printf("Customer Name : %s\n", customer);
+    printf("Showtime      : %s\n", showtimes[show-1]);
+    printf("Seat          : Row %d Seat %d\n", row, col);
+    printf("Tickets       : %d\n", ticketCount);
+    printf("Price/Ticket  : Rs.%d\n", price);
+    printf("Discount      : %.0f%%\n", discount);
+    printf("Total Amount  : Rs.%.2f\n", finalPrice);
+
+    break;
+}
             case 4:
                 printf("\nCancel Booking selected.\n");
                 break;
