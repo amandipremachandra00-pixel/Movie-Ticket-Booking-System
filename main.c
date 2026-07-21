@@ -198,8 +198,39 @@ int main()
     break;
 }
             case 4:
-                printf("\nCancel Booking selected.\n");
+
+{
+                int row, column;
+
+                printf("\n========== CANCEL A BOOKING ==========\n");
+
+                printf("Enter Row (1-5): ");
+                scanf("%d", &row);
+
+                printf("Enter Seat Number (1-5): ");
+                scanf("%d", &column);
+
+                // 1. Validate seat boundary
+                if (row < 1 || row > 5 || column < 1 || column > 5)
+                {
+                    printf("Invalid seat position! Row and Seat must be between 1 and 5.\n");
+                    break;
+                }
+
+                // 2. Check if the seat is actually booked ('X')
+                if (seats[row - 1][column - 1] == 'O')
+                {
+                    printf("Seat Row %d, Seat %d is not currently booked.\n", row, column);
+                }
+                else
+                {
+                    // 3. Reset seat status to Available ('O')
+                    seats[row - 1][column - 1] = 'O';
+                    printf("\nBooking for Row %d, Seat %d has been successfully canceled!\n", row, column);
+                }
+
                 break;
+            }
 
             case 5:
                 printf("\nSearch Booking selected.\n");
